@@ -69,5 +69,24 @@ def create_resource():
     else:
         return jsonify({"error": "Invalid platform"}), 400
 
+@app.route('/destruir', methods=['POST'])
+def destroy_resource():
+    data = request.get_json()
+    platform = data.get('platform')
+
+    if not platform:
+        return jsonify({"error": "Platform is required"}), 400
+
+    if platform == 'aws':
+        # Chama a função para destruir recursos na AWS
+        message = Destruir_AWS()
+        return jsonify({"message": message}), 200
+    elif platform == 'azure':
+        # Chama a função para destruir recursos no Azure
+        message = Destruir_AZURE()
+        return jsonify({"message": message}), 200
+    else:
+        return jsonify({"error": "Invalid platform"}), 400
+
 if __name__ == '__main__':
     app.run(debug=True)
