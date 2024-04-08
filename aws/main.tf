@@ -18,30 +18,34 @@ provider "aws" {
 }
 
 # Criar VPC
-resource "aws_vpc" "VPC" {
- cidr_block = "172.16.0.0/16"
+resource "aws_vpc" "vpc" {
+ cidr_block = "193.16.0.0/16"
+
+ tags = {
+   name = "VPC_Crirar"
+ }
 }
 
 # Criar Subrede Pública
 resource "aws_subnet" "Subrede_Publica" {
- vpc_id     = aws_vpc.VPC.id
- cidr_block = "172.16.1.0/24"
+ vpc_id     = aws_vpc.vpc.id
+ cidr_block = "193.16.1.0/24"
 }
 
 # Criar Subrede Privada
 resource "aws_subnet" "Subrede_Privada" {
- vpc_id     = aws_vpc.VPC.id
- cidr_block = "172.16.2.0/24"
+ vpc_id     = aws_vpc.vpc.id
+ cidr_block = "193.16.2.0/24"
 }
 
 # Criar Gateway de Internet 
 resource "aws_internet_gateway" "igw" {
- vpc_id = aws_vpc.VPC.id
+ vpc_id = aws_vpc.vpc.id
 }
 
 # Criar Tabelade Rotas
 resource "aws_route_table" "public" {
- vpc_id = aws_vpc.VPC.id
+ vpc_id = aws_vpc.vpc.id
 
  route {
     cidr_block = "0.0.0.0/0"
@@ -59,7 +63,7 @@ resource "aws_route_table_association" "public" {
 resource "aws_security_group" "Grupo_de_Seguranca_LInux" {
  name        = "allow_ssh"
  description = "Allow SSH inbound traffic"
- vpc_id      = aws_vpc.VPC.id
+ vpc_id      = aws_vpc.vpc.id
 
  ingress {
     from_port   = 22
@@ -73,7 +77,7 @@ resource "aws_security_group" "Grupo_de_Seguranca_LInux" {
 resource "aws_security_group" "Grupo_de_Seguranca_Windows" {
  name        = "allow_rdp"
  description = "Allow rdp inbound traffic"
- vpc_id      = aws_vpc.VPC.id
+ vpc_id      = aws_vpc.vpc.id
 
  ingress {
     from_port   = 3389
