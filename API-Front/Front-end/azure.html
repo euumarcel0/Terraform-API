@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <link rel="shortcut icon" href="https://www.svgrepo.com/show/376353/terraform.svg" type="image/x-icon"/>
+    <title>API Terraform</title>
+    <link rel="stylesheet" href="/API-Front/Front-end/css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+<div class="container" id="container">
+    <header>
+      <section class="window--buttons">
+        <div class="window__close"></div>
+  
+        <div class="window__minimize"></div>
+  
+        <div class="window__maximize"></div>
+      </section>
+    </header>
+    <div class="menu">
+      <div class="dot"></div> 
+      <div class="dot"></div>
+      <div class="dot"></div>
+    </div>
+    <aside>
+      <div>
+        <input type="text" placeholder="Search" /><br />
+  
+        <button class="active" id="menuBnt">MENU</button>
+        <button id="aws-btn">AWS</button>
+        <button id="azure-btn">AZURE</button>
+        <button id="sidebar-btn">Atualizações</button>
+      </div>
+  
+      <div class="profile">
+        <img src="https://scontent-gru2-2.cdninstagram.com/v/t39.30808-6/402949656_18313349770141322_4377482542700818250_n.jpg?stp=dst-jpg_e35_p640x640_sh0.08&efg=eyJ2ZW5jb2RlX3RhZyI6ImltYWdlX3VybGdlbi4xNDQweDE4MDAuc2RyIn0&_nc_ht=scontent-gru2-2.cdninstagram.com&_nc_cat=102&_nc_ohc=1jw--3X9y1kAb63FVuJ&edm=ACWDqb8AAAAA&ccb=7-5&ig_cache_key=MzIzODI4NjMwNTExMTAyNzgxOQ%3D%3D.2-ccb7-5&oh=00_AfC1Q0lHGoP7s2j7av5Ubq6ggZuXpaHQMKErj9ncmFfFtA&oe=66180145&_nc_sid=ee9879" alt="Profile Pic" class="profile--pic" />
+  
+        <h1>Marcelo Mesquita</h1>
+      </div>
+    </aside>
+  
+    <div class="content">
+      <div class="ideas">
+        <div class="idea">
+          <p>Bem Vindo</p>
+          <h1>Terraform<br> Azure</h1>
+        </div>
+  
+        <div class="idea">
+          <p>Bem Vindo</p>
+          <h1>Terraform</h1>
+          <p>AWS</p>
+        </div>
+      </div>
+  
+      <section class="updates">
+        <h1>Updates</h1>
+  
+        <div class="update update-grupo-recursos">
+          <div class="updt-left">
+            <img src="https://symbols.getvecta.com/stencil_28/83_resourcegroup.817768e903.png" alt="Grupo de Recursos icon" />
+            <h1>Grupo de Recursos</h1>
+          </div>
+          <div class="buttons">
+            <button id="grupo-recursos-btn" onclick="openModal()">Update</button>
+          </div>
+        </div>
+        
+        <!-- Modal -->
+        <div id="modal-content" class="modal-content">
+          <span id="modal-message"></span>
+          <span id="close-modal" class="close" onclick="closeModal()">&times;</span>
+        </div>
+        
+          <div class="update">
+            <div class="updt-left">
+              <img src="/API-Front//Logos/Azure/Conta_Armazenamento.svg" Ícone da atualização" />
+              <h1>Conta de Armazenamento</h1>
+            </div>
+            <div class="buttons">
+              <div id="resultado-azure"></div>
+              <a id="conta-armazenamento-btn" target="_warning">
+                <button>Update</button>
+              </a>
+            </div>
+          </div>
+
+          <div class="update">
+    
+            <div class="updt-left">
+              <img src="/API-Front//Logos/Azure/VNET.svg" alt="VNET icon" />
+              <h1>VNET</h1>
+            </div>
+    
+            <div class="buttons">
+              <a id="vnet-btn" target="_warning">
+                  <button>Update</button>
+                </a>
+            </div>
+          </div>
+    
+          <div class="update">
+    
+            <div class="updt-left">
+              <img src="/API-Front//Logos/Azure/VNET.svg" alt="Subrede icon" />
+              <h1>Subrede Pública</h1>
+            </div>
+    
+            <div class="buttons">
+              <a id="subnet-publica-btn" target="_warning">
+                <button>Update</button>
+              </a>
+            </div>
+          </div>
+    
+          <div class="update">
+    
+            <div class="updt-left">
+              <img src="/API-Front//Logos/Azure/VNET.svg" alt="Subrede icon" />
+              <h1>Subrede Privada</h1>
+            </div>
+    
+            <div class="buttons">
+              <a id="subnet-privada-btn" target="_warning">
+                <button>Update</button>
+            </a>
+          </div>
+        </div>
+
+        <div class="update">
+          <div class="updt-left">
+            <img src="/API-Front//Logos/Azure/Grupo_de_Segurança.svg" alt="Ícone da atualização" />
+            <h1>Grupo de Segurança</h1>
+          </div>
+          <div class="buttons">
+            <a id="grupo-seguranca-btn" target="_warning">
+              <button>Update</button>
+            </a>
+          </div>
+        </div>
+
+        <div class="update">
+          <div class="updt-left">
+            <img src="/API-Front/Logos/Azure/IP.svg" alt="Ícone da atualização" />
+            <h1>IP Publico Linux</h1>
+          </div>
+          <div class="buttons">
+            <a id="ip-publico-linux-btn" target="_warning">
+              <button>Update</button>
+            </a>
+          </div>
+        </div>
+
+        <div class="update">
+          <div class="updt-left">
+            <img src="/API-Front//Logos/Azure/IP.svg" alt="Ícone da atualização" />
+            <h1>IP Publico windows</h1>
+          </div>
+          <div class="buttons">
+            <a id="ip-publico-windows-btn" target="_warning">
+              <button>Update</button>
+            </a>
+          </div>
+        </div>
+
+        <div class="update">
+          <div class="updt-left">
+            <img src="/API-Front//Logos/Azure/INT_Rede.svg" alt="Ícone da atualização" />
+            <h1>Interface de rede Linux</h1>
+          </div>
+          <div class="buttons">
+            <a id="interface-rede-linux-btn" target="_warning">
+              <button>Update</button>
+            </a>
+          </div>
+        </div>
+
+        <div class="update">
+          <div class="updt-left">
+            <img src="/API-Front//Logos/Azure/INT_Rede.svg" alt="Ícone da atualização" />
+            <h1>Interface de rede Windows</h1>
+          </div>
+          <div class="buttons">
+            <a id="interface-rede-windows-btn" target="_warning">
+              <button>Update</button>
+            </a>
+          </div>
+        </div>
+
+        <div class="update">
+          <div class="updt-left">
+            <img src="/API-Front//Logos/Azure/Maquina_virtual.svg" alt="Ícone da atualização" />
+            <h1>Máquina Virtual Windows</h1>
+          </div>
+          <div class="buttons">
+            <a id="maquina-virtual-windows-btn" target="_warning">
+              <button>Update</button>
+            </a>
+          </div>
+        </div>
+
+        <div class="update">
+          <div class="updt-left">
+            <img src="/API-Front//Logos/Azure/Maquina_virtual.svg" alt="Ícone da atualização" />
+            <h1>Máquina Virtual Linux</h1>
+          </div>
+          <div class="buttons">
+            <a id="maquina-virtual-linux-btn" target="_warning">
+              <button>Update</button>
+            </a>
+          </div>
+        </div>
+      </section>
+    </div>
+    <script>
+        // Obtendo os botões
+        const awsBtn = document.getElementById('aws-btn');
+        const azureBtn = document.getElementById('azure-btn');
+
+        // Adicionando eventos de clique aos botões
+        awsBtn.addEventListener('click', function() {
+            window.location.href = './aws.html'; 
+        });
+
+        azureBtn.addEventListener('click', function() {
+            window.location.href = './azure.html';
+        });
+        menuBnt.addEventListener( 'click' ,function(){
+        window.location.href = './index.html'
+      });
+      // Obtendo todos os botões de atualização
+      const updateButtons = document.querySelectorAll('.update button');
+
+      // Adicionando eventos de clique a cada botão de atualização
+      updateButtons.forEach(button => {
+          button.addEventListener('click', function() {
+              const resourceName = this.closest('.update').querySelector('h1').textContent;
+              criarRecursosAzure(resourceName);
+          });
+      });
+    </script>
+    <script src="/API-Front/Front-end/js/script.js"></script>
+  </div>
+</body>
+</html>
