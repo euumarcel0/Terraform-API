@@ -48,10 +48,18 @@ def criar_subrede_privada(terraform_dir):
     except subprocess.CalledProcessError as e:
         print(f"Erro ao criar Subrede Privada: {e}")
 
-# Criar Grupo de Segurança Azure
-def criar_grupo_seguranca(terraform_dir):
+# Criar Grupo de Segurança Linux Azure
+def criar_grupo_seguranca_linux(terraform_dir):
     try:
-        subprocess.run(['terraform', 'apply', '-auto-approve', '-target=azurerm_network_security_group.Grupo_de_Seguranca'], cwd=terraform_dir, check=True)
+        subprocess.run(['terraform', 'apply', '-auto-approve', '-target=azurerm_network_security_group.Grupo_de_Seguranca_Linux'], cwd=terraform_dir, check=True)
+        print("Grupo de Segurança criado com sucesso!")
+    except subprocess.CalledProcessError as e:
+        print(f"Erro ao criar Grupo de Segurança: {e}")
+        
+# Criar Grupo de Segurança Windows Azure
+def criar_grupo_seguranca_Windows(terraform_dir):
+    try:
+        subprocess.run(['terraform', 'apply', '-auto-approve', '-target=azurerm_network_security_group.Grupo_de_Seguranca_Windows'], cwd=terraform_dir, check=True)
         print("Grupo de Segurança criado com sucesso!")
     except subprocess.CalledProcessError as e:
         print(f"Erro ao criar Grupo de Segurança: {e}")
@@ -90,7 +98,7 @@ def criar_maquina_virtual_linux(terraform_dir):
 
 # Função para criar recursos na Azure com base na solicitação do usuário
 def Criar_AZURE(resources_to_create):
-    terraform_dir = './azure/'
+    terraform_dir = './API-Back/azure/'
     messages = []
 
     # Mapeamento de recursos para funções de criação
@@ -100,11 +108,10 @@ def Criar_AZURE(resources_to_create):
         'virtual_network': criar_vnet,
         'subnet_publica': criar_subrede_publica,
         'subnet_privada': criar_subrede_privada,
-        'network_security_group': criar_grupo_seguranca,
+        'network_security_linux': criar_grupo_seguranca_linux,
+        'network_security_windows': criar_grupo_seguranca_Windows,
         'public_ip_linux': criar_interface_ip_linux,
         'public_ip_windows': criar_interface_ip_windows,
-        'interface_de_rede_linux': criar_interface_ip_linux,
-        'interface_de_rede_windows': criar_interface_ip_windows,
         'linux_virtual_machine': criar_maquina_virtual_linux,
         'windows_virtual_machine': criar_maquina_virtual_windows
     }
@@ -183,44 +190,53 @@ def associar_subrede_tabela(terraform_dir):
     except subprocess.CalledProcessError as e:
         print(f"Erro ao associar Subrede Pública à Tabela de Rotas: {e}")
 
-# Função para criar Grupo de Segurança
-def criar_grupo_seguranca(terraform_dir, nome, descricao, port, protocolo, cidr_blocks):
+# Função para criar Grupo de Segurança Linux
+def criar_grupo_seguranca_Linux(terraform_dir):
     try:
-        subprocess.run(['terraform', 'apply', '-auto-approve', '-target=aws_security_group.' + nome, 
-                        '-var', 'name=' + nome, '-var', 'description=' + descricao, 
-                        '-var', 'port=' + port, '-var', 'protocol=' + protocolo, 
-                        '-var', 'cidr_blocks=' + cidr_blocks], cwd=terraform_dir, check=True)
-        print(f"Grupo de Segurança '{nome}' criado com sucesso!")
+        subprocess.run(['terraform', 'apply', '-auto-approve', '-target=aws_security_group.Grupo_de_Seguranca_LInux'], cwd=terraform_dir, check=True)
+        print(f"Grupo de Segurança criado com sucesso!")
     except subprocess.CalledProcessError as e:
-        print(f"Erro ao criar Grupo de Segurança '{nome}': {e}")
+        print(f"Erro ao criar Grupo de Segurança: {e}")
+        
+# Função para criar Grupo de Segurança Windows
+def criar_grupo_seguranca_Windows(terraform_dir):
+    try:
+        subprocess.run(['terraform', 'apply', '-auto-approve', '-target=aws_security_group.Grupo_de_Seguranca_Windows'], cwd=terraform_dir, check=True)
+        print(f"Grupo de Segurança criado com sucesso!")
+    except subprocess.CalledProcessError as e:
+        print(f"Erro ao criar Grupo de Segurança: {e}")
 
-# Função para criar instância EC2
-def criar_instancia_ec2(terraform_dir, nome, ami, instance_type, key_name, vpc_security_group_ids, subnet_id, public_ip):
+# Função para criar instância EC2 Linux
+def criar_instancia_ec2_Linux(terraform_dir):
     try:
-        subprocess.run(['terraform', 'apply', '-auto-approve', '-target=aws_instance.' + nome, 
-                        '-var', 'ami=' + ami, '-var', 'instance_type=' + instance_type, 
-                        '-var', 'key_name=' + key_name, '-var', 'vpc_security_group_ids=' + vpc_security_group_ids, 
-                        '-var', 'subnet_id=' + subnet_id, '-var', 'associate_public_ip_address=' + public_ip], 
-                       cwd=terraform_dir, check=True)
-        print(f"Instância EC2 '{nome}' criada com sucesso!")
+        subprocess.run(['terraform', 'apply', '-auto-approve', '-target=aws_instance.linux'], cwd=terraform_dir, check=True)
+        print(f"Instância EC2 Linux criada com sucesso!")
     except subprocess.CalledProcessError as e:
-        print(f"Erro ao criar Instância EC2 '{nome}': {e}")
+        print(f"Erro ao criar Instância EC2 Linux: {e}")
+        
+# Função para criar instância EC2 Windows
+def criar_instancia_ec2_Windows(terraform_dir):
+    try:
+        subprocess.run(['terraform', 'apply', '-auto-approve', '-target=aws_instance.windows'], cwd=terraform_dir, check=True)
+        print(f"Instância EC2 Windows criada com sucesso!")
+    except subprocess.CalledProcessError as e:
+        print(f"Erro ao criar Instância EC2 Windows: {e}")
 
 def criar_AWS(resources_to_create):
-    terraform_dir = './aws/'
+    terraform_dir = './API-Back/aws/'
     messages = []
 
     resource_functions = {
-        'vpc': lambda: criar_vpc(terraform_dir),
+        'vpc': lambda: criar_vpc,
         'subnet_publica': lambda: criar_subrede_publica(terraform_dir),
         'subnet_privada': lambda: criar_subrede_privada(terraform_dir),
         'internet_gateway': lambda: criar_internet_gateway(terraform_dir),
         'tabela_rotas': lambda: criar_tabela_rotas(terraform_dir),
         'associar_subrede_tabela': lambda: associar_subrede_tabela(terraform_dir),
-        'grupo_seguranca_linux': lambda: criar_grupo_seguranca(terraform_dir, "Grupo_de_Seguranca_LInux", "Allow SSH inbound traffic", "22", "tcp", ["0.0.0.0/0"]),
-        'grupo_seguranca_windows': lambda: criar_grupo_seguranca(terraform_dir, "Grupo_de_Seguranca_Windows", "Allow RDP inbound traffic", "3389", "tcp", ["0.0.0.0/0"]),
-        'instancia_ec2_linux': lambda: criar_instancia_ec2(terraform_dir, "linux", "ami-058bd2d568351da34", "t2.micro", "terraform", "aws_security_group.Grupo_de_Seguranca_LInux.id", "aws_subnet.Subrede_Publica.id", "true"),
-        'instancia_ec2_windows': lambda: criar_instancia_ec2(terraform_dir, "windows", "ami-03cd80cfebcbb4481", "t2.micro", "terraform", "aws_security_group.Grupo_de_Seguranca_Windows.id", "aws_subnet.Subrede_Publica.id", "true"),
+        'grupo_seguranca_linux': criar_grupo_seguranca_Linux(terraform_dir),
+        'grupo_seguranca_windows': lambda: criar_grupo_seguranca_Windows(terraform_dir),
+        'instancia_ec2_linux': lambda: criar_instancia_ec2_Linux(terraform_dir),
+        'instancia_ec2_windows': lambda: criar_instancia_ec2_Windows(terraform_dir)
     }
 
     for resource in resources_to_create:

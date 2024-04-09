@@ -4,7 +4,7 @@ provider "azurerm" {
 
 # Criar Grupo de Recursos
 resource "azurerm_resource_group" "Grupo_de_recursos" {
-  name     = "apis"
+  name     = "teste"
   location = "East US"
 }
 
@@ -42,8 +42,8 @@ resource "azurerm_subnet" "Subrede_Privada" {
 }
 
 # Criar Grupo de Segurança
-resource "azurerm_network_security_group" "Grupo_de_Seguranca" {
-  name                = "Grupo_de_Segurança"
+resource "azurerm_network_security_group" "Grupo_de_Seguranca_Linux" {
+  name                = "Grupo_de_Segurança_Linux"
   location            = azurerm_resource_group.Grupo_de_recursos.location
   resource_group_name = azurerm_resource_group.Grupo_de_recursos.name
 
@@ -55,6 +55,25 @@ resource "azurerm_network_security_group" "Grupo_de_Seguranca" {
     protocol                   = "Tcp"
     source_port_range          = "*"
     destination_port_range     = "22"
+    source_address_prefix      = "*"
+    destination_address_prefix = "*"
+  }
+}
+
+# Criar Grupo de Segurança
+resource "azurerm_network_security_group" "Grupo_de_Seguranca_Windows" {
+  name                = "Grupo_de_Segurança_Windows"
+  location            = azurerm_resource_group.Grupo_de_recursos.location
+  resource_group_name = azurerm_resource_group.Grupo_de_recursos.name
+
+  security_rule {
+    name                       = "RDP"
+    priority                   = 1001
+    direction                  = "Inbound"
+    access                     = "Allow"
+    protocol                   = "Tcp"
+    source_port_range          = "*"
+    destination_port_range     = "3389"
     source_address_prefix      = "*"
     destination_address_prefix = "*"
   }
