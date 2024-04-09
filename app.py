@@ -1,8 +1,10 @@
 from flask import Flask, request, jsonify
+from flask_cors import CORS
 import json
 import subprocess
 
 app = Flask(__name__)
+CORS(app)
 
 # ----------------------------------------------------AZURE-----------------------------------------------------------#
 
@@ -242,7 +244,7 @@ def Destruir_AWS():
         return f"Error destroying AWS resources: {e.output}"
     
 # Endpoint de Criação de Recursos
-@app.route('/api', methods=['POST'])
+@app.route('/api', methods=['POST', 'OPTIONS'])
 def Criar():
     data = request.get_json()
     platform = data.get('platform')

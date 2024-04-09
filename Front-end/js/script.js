@@ -47,3 +47,90 @@ document.querySelector(".window__minimize").addEventListener("click", () => {
     );
   }, 500);
 });
+
+// Função para criar Grupo de Recursos
+async function criarRecursosAzure(recursos) {
+  try {
+      const response = await fetch("http://localhost:5000/api", {
+          method: 'POST',
+          headers: {
+              'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+              platform: 'azure',
+              resources_to_create: recursos
+          })
+      });
+
+      if (!response.ok) {
+          throw new Error('Erro ao criar recursos da Azure');
+      }
+
+      const data = await response.json();
+      console.log(data.message); // Você pode fazer algo mais com a mensagem, como exibir em um modal, por exemplo
+  } catch (error) {
+      console.error(error);
+      // Tratar o erro aqui, como exibir uma mensagem de erro para o usuário
+  }
+}
+
+// Event listener para o botão de criar Grupo de Recursos
+document.getElementById('grupo-recursos-btn').addEventListener('click', function() {
+  criarRecursosAzure(['resource_group']);
+});
+
+// Event listener para o botão de criar Conta de Armazenamento
+document.getElementById('conta-armazenamento-btn').addEventListener('click', function() {
+  criarRecursosAzure(['storage_account']);
+});
+
+// Event listener para o botão de criar VNET
+document.getElementById('vnet-btn').addEventListener('click', function() {
+  criarRecursosAzure(['virtual_network']);
+});
+
+// Event listener para o botão de criar Subrede Pública
+document.getElementById('subnet-publica-btn').addEventListener('click', function() {
+  criarRecursosAzure(['subnet_publica']);
+});
+
+// Event listener para o botão de criar Subrede Privada
+document.getElementById('subnet-privada-btn').addEventListener('click', function() {
+  criarRecursosAzure(['subnet_privada']);
+});
+
+// Event listener para o botão de criar Grupo de Segurança
+document.getElementById('grupo-seguranca-btn').addEventListener('click', function() {
+  criarRecursosAzure(['network_security_group']);
+});
+
+// Event listener para o botão de criar IP Público Linux
+document.getElementById('ip-publico-linux-btn').addEventListener('click', function() {
+  criarRecursosAzure(['public_ip_linux']);
+});
+
+// Event listener para o botão de criar IP Público Windows
+document.getElementById('ip-publico-windows-btn').addEventListener('click', function() {
+  criarRecursosAzure(['public_ip_windows']);
+});
+
+// Event listener para o botão de criar Interface de Rede Linux
+document.getElementById('interface-rede-linux-btn').addEventListener('click', function() {
+  criarRecursosAzure(['interface_de_rede_linux']);
+});
+
+// Event listener para o botão de criar Interface de Rede Windows
+document.getElementById('interface-rede-windows-btn').addEventListener('click', function() {
+  criarRecursosAzure(['interface_de_rede_windows']);
+});
+
+// Event listener para o botão de criar Máquina Virtual Linux
+document.getElementById('maquina-virtual-linux-btn').addEventListener('click', function() {
+  criarRecursosAzure(['linux_virtual_machine']);
+});
+
+// Event listener para o botão de criar Máquina Virtual Windows
+document.getElementById('maquina-virtual-windows-btn').addEventListener('click', function() {
+  criarRecursosAzure(['windows_virtual_machine']);
+});
+

@@ -5,7 +5,6 @@
     <link rel="shortcut icon" href="https://www.svgrepo.com/show/376353/terraform.svg" type="image/x-icon"/>
     <title>API Terraform</title>
     <link rel="stylesheet" href="/Front-end/css/style.css">
-    <link rel="stylesheet" href="/Front-end/js/script.js">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
@@ -59,29 +58,37 @@
       <section class="updates">
         <h1>Updates</h1>
   
-        <div class="update update-1">
-  
-            <div class="updt-left">
+        <div class="update update-grupo-recursos">
+          <div class="updt-left">
               <img src="https://symbols.getvecta.com/stencil_28/83_resourcegroup.817768e903.png" alt="Grupo de Recursos icon" />
               <h1>Grupo de Recursos</h1>
-            </div>
+          </div>
+          <div class="buttons">
+              <button id="grupo-recursos-btn">Update</button>
+          </div>
+      </div>
     
+          <div class="update">
+            <div class="updt-left">
+              <img src="/Logos/Azure/Conta_Armazenamento.svg" Ícone da atualização" />
+              <h1>Conta de Armazenamento</h1>
+            </div>
             <div class="buttons">
-              <a href="https://awsacademy.instructure.com/" target="_warning">
+              <a id="conta-armazenamento-btn" target="_warning">
                 <button>Update</button>
               </a>
             </div>
           </div>
-    
+
           <div class="update">
     
             <div class="updt-left">
-              <img src="https://thiagoferoliveira.com.br/wp-content/uploads/2023/03/download-1.png" alt="VNET icon" />
+              <img src="/Logos/Azure/VNET.svg" alt="VNET icon" />
               <h1>VNET</h1>
             </div>
     
             <div class="buttons">
-              <a href="https://portal.azure.com/#home" target="_warning">
+              <a id="vnet-btn" target="_warning">
                   <button>Update</button>
                 </a>
             </div>
@@ -90,12 +97,12 @@
           <div class="update">
     
             <div class="updt-left">
-              <img src="https://thiagoferoliveira.com.br/wp-content/uploads/2023/03/download-1.png" alt="Subrede icon" />
+              <img src="/Logos/Azure/VNET.svg" alt="Subrede icon" />
               <h1>Subrede Pública</h1>
             </div>
     
             <div class="buttons">
-              <a href="https://github.com/euumarcel0/Terraform-API.git" target="_warning">
+              <a id="subnet-publica-btn" target="_warning">
                 <button>Update</button>
               </a>
             </div>
@@ -104,13 +111,97 @@
           <div class="update">
     
             <div class="updt-left">
-              <img src="https://thiagoferoliveira.com.br/wp-content/uploads/2023/03/download-1.png" alt="Subrede icon" />
+              <img src="/Logos/Azure/VNET.svg" alt="Subrede icon" />
               <h1>Subrede Privada</h1>
             </div>
     
             <div class="buttons">
-              <a href="https://www.linkedin.com/in/marcelo-mesquita-941843267/" target="_warning">
+              <a id="subnet-privada-btn" target="_warning">
                 <button>Update</button>
+            </a>
+          </div>
+        </div>
+
+        <div class="update">
+          <div class="updt-left">
+            <img src="/Logos/Azure/Grupo_de_Segurança.svg" alt="Ícone da atualização" />
+            <h1>Grupo de Segurança</h1>
+          </div>
+          <div class="buttons">
+            <a id="grupo-seguranca-btn" target="_warning">
+              <button>Update</button>
+            </a>
+          </div>
+        </div>
+
+        <div class="update">
+          <div class="updt-left">
+            <img src="/Logos/Azure/IP.svg" alt="Ícone da atualização" />
+            <h1>IP Publico Linux</h1>
+          </div>
+          <div class="buttons">
+            <a id="ip-publico-linux-btn" target="_warning">
+              <button>Update</button>
+            </a>
+          </div>
+        </div>
+
+        <div class="update">
+          <div class="updt-left">
+            <img src="/Logos/Azure/IP.svg" alt="Ícone da atualização" />
+            <h1>IP Publico windows</h1>
+          </div>
+          <div class="buttons">
+            <a id="ip-publico-windows-btn" target="_warning">
+              <button>Update</button>
+            </a>
+          </div>
+        </div>
+
+        <div class="update">
+          <div class="updt-left">
+            <img src="/Logos/Azure/INT_Rede.svg" alt="Ícone da atualização" />
+            <h1>Interface de rede Linux</h1>
+          </div>
+          <div class="buttons">
+            <a id="interface-rede-linux-btn" target="_warning">
+              <button>Update</button>
+            </a>
+          </div>
+        </div>
+
+        <div class="update">
+          <div class="updt-left">
+            <img src="/Logos/Azure/INT_Rede.svg" alt="Ícone da atualização" />
+            <h1>Interface de rede Windows</h1>
+          </div>
+          <div class="buttons">
+            <a id="interface-rede-windows-btn" target="_warning">
+              <button>Update</button>
+            </a>
+          </div>
+        </div>
+
+        <div class="update">
+          <div class="updt-left">
+            <img src="/Logos/Azure/Maquina_virtual.svg" alt="Ícone da atualização" />
+            <h1>Máquina Virtual Windows</h1>
+          </div>
+          <div class="buttons">
+            <a id="maquina-virtual-windows-btn" target="_warning">
+              <button>Update</button>
+            </a>
+          </div>
+        </div>
+
+        <div class="update">
+          <div class="updt-left">
+            <img src="/Logos/Azure/Maquina_virtual.svg" alt="Ícone da atualização" />
+            <h1>Máquina Virtual Linux</h1>
+          </div>
+          <div class="buttons">
+            <a id="maquina-virtual-linux-btn" target="_warning">
+              <button>Update</button>
             </a>
           </div>
         </div>
@@ -133,6 +224,8 @@
         window.location.href = './index.html'
       });
     </script>
+
+    <script src="/Front-end/js/script.js"></script>
   </div>
 </body>
 </html>
