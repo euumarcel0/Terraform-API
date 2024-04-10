@@ -4,7 +4,7 @@ provider "azurerm" {
 
 # Criar Grupo de Recursos
 resource "azurerm_resource_group" "Grupo_de_recursos" {
-  name     = "apis"
+  name     = "bruno"
   location = "East US"
 }
 

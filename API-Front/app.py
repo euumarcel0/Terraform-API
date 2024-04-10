@@ -2,6 +2,8 @@ from flask import Flask, request, jsonify
 from flask_cors import CORS
 import json
 import subprocess
+from threading import Thread
+from flask import jsonify
 
 app = Flask(__name__)
 # CORS para Azure
@@ -15,12 +17,18 @@ CORS(app, resources={
 # Função para criar Grupo de Recursos na Azure
 @app.route('/azure/criar-grupo-recursos', methods=['POST'])
 def criar_grupo_recursos_azure():
-    terraform_dir = './azure/'
-    try:
-        subprocess.run(['terraform', 'apply', '-auto-approve', '-target=azurerm_resource_group.Grupo_de_recursos'], cwd=terraform_dir, check=True)
-        return jsonify({"message": "Grupo de Recursos criado com sucesso!"}), 200
-    except subprocess.CalledProcessError as e:
-        return jsonify({"error": f"Erro ao criar Grupo de Recursos: {e}"}), 500
+    def criar_grupo_recursos():
+        with app.app_context(): # Cria um contexto de aplicação
+            terraform_dir = './azure/'
+            try:
+                subprocess.run(['terraform', 'apply', '-auto-approve', '-target=azurerm_resource_group.Grupo_de_recursos'], cwd=terraform_dir, check=True)
+                return jsonify({"message": "Grupo de Recursos criado com sucesso!"}), 200
+            except subprocess.CalledProcessError as e:
+                return jsonify({"error": f"Erro ao criar Grupo de Recursos: {e}"}), 500
+
+    thread = Thread(target=criar_grupo_recursos)
+    thread.start()
+    return jsonify({"message": "Processo de criação iniciado."}), 202
 
 # Função para criar Conta de Armazenamento na Azure
 @app.route('/azure/criar-conta-armazenamento', methods=['POST'])
