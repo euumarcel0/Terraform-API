@@ -113,10 +113,10 @@ document.getElementById('maquina-virtual-windows-btn').addEventListener('click',
 
 // ----------------------------------------------------AWS---------------------------------------------------------- //
 
-// Função para criar recursos na Azure
-async function criarRecursosAzure(recurso) {
+// Função para criar recursos na AWS
+async function criarRecursosAWS(recurso) {
   try {
-      const response = await fetch(`http://localhost:5000/azure/${recurso}`, {
+      const response = await fetch(`http://localhost:5000/aws/${recurso}`, {
           method: 'POST',
           headers: {
               'Content-Type': 'application/json'
@@ -125,7 +125,7 @@ async function criarRecursosAzure(recurso) {
       });
 
       if (!response.ok) {
-          throw new Error(`Erro ao criar ${recurso} na Azure`);
+          throw new Error(`Erro ao criar ${recurso} na AWS`);
       }
 
       const data = await response.json();
@@ -134,7 +134,7 @@ async function criarRecursosAzure(recurso) {
       // Atualiza o conteúdo do modal com o resultado
       document.getElementById('modal-message').innerText = data.message;
       
-      // Abre o modal apenas em caso de sucesso
+      // Abre o modal
       openModal();
   } catch (error) {
       console.error(error);
@@ -142,9 +142,12 @@ async function criarRecursosAzure(recurso) {
       
       // Atualiza o conteúdo do modal com a mensagem de erro
       document.getElementById('modal-message').innerText = error.message;
+      
+      // Abre o modal
+      openModal();
   }
 }
- 
+
 // Event listener para o botão de criar VPC na AWS
 document.getElementById('aws-vpc-btn').addEventListener('click', function() {
   criarRecursosAWS('VPC');
@@ -204,14 +207,30 @@ function openModal() {
   document.body.classList.add('modal-open'); // Adiciona a classe modal-open ao body
 }
 
-// Event listener para fechar o modal
-document.getElementById('close-modal').addEventListener('click', function() {
-  closeModal();
-});
-
 // Função para fechar o modal
 function closeModal() {
   document.getElementById('modal-message').innerText = ''; // Limpa o conteúdo do modal
   document.getElementById('modal-content').style.display = "none"; // Esconde o modal
   document.body.classList.remove('modal-open'); // Remove a classe modal-open do body
 }
+
+// Adicionar um ouvinte de evento para fechar o modal quando o usuário clicar fora dele
+document.addEventListener('DOMContentLoaded', function() {
+  const modalContent = document.getElementById('modal-content');
+  const closeModalButton = document.getElementById('close-modal');
+
+  closeModalButton.addEventListener('click', closeModal);
+
+  // Ajuste no ouvinte de evento para fechar o modal quando o usuário clicar fora dele
+  window.onclick = function(event) {
+      if (event.target == modalContent) { // Certifique-se de que o ID do modal esteja correto
+          closeModal();
+      }
+  }
+});
+
+document.addEventListener('click', function(event) {
+  if (event.target == modalContent) {
+      closeModal();
+  }
+});
