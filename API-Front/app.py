@@ -1,10 +1,14 @@
+# Importações necessárias para o aplicativo Flask
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 import json
 import subprocess
 
+
+# Inicialização do aplicativo Flask
 app = Flask(__name__)
-# CORS para Azure
+
+# Configuração do CORS para permitir solicitações de todas as origens para determinados endpoints
 CORS(app, resources={
     r"/azure/*": {"origins": "*"},
     r"/aws/*": {"origins": "*"}
@@ -12,17 +16,19 @@ CORS(app, resources={
 
 # ----------------------------------------------------AZURE-----------------------------------------------------------#
 
-# Função para criar Grupo de Recursos na Azure
+# Endpoint para criar um Grupo de Recursos na Azure
 @app.route('/azure/criar-grupo-recursos', methods=['POST'])
 def criar_grupo_recursos_azure():
+    # Diretório onde estão os arquivos de configuração do Terraform para a Azure
     terraform_dir = './azure/'
     try:
+        # Executa o comando Terraform para aplicar as configurações e criar o Grupo de Recursos
         subprocess.run(['terraform', 'apply', '-auto-approve', '-target=azurerm_resource_group.Grupo_de_recursos'], cwd=terraform_dir, check=True)
         return jsonify({"message": "Grupo de Recursos criado com sucesso!"}), 200
     except subprocess.CalledProcessError as e:
         return jsonify({"error": f"Erro ao criar Grupo de Recursos: {e}"}), 500
 
-# Função para criar Conta de Armazenamento na Azure
+# Endpoint para criar uma Conta de Armazenamento na Azure
 @app.route('/azure/criar-conta-armazenamento', methods=['POST'])
 def criar_conta_armazenamento_azure():
     terraform_dir = './azure/'
@@ -32,7 +38,7 @@ def criar_conta_armazenamento_azure():
     except subprocess.CalledProcessError as e:
         return jsonify({"error": f"Erro ao criar Conta de Armazenamento: {e}"}), 500
 
-# Função para criar VNET na Azure
+# Endpoint para criar uma VNET na Azure
 @app.route('/azure/criar-vnet', methods=['POST'])
 def criar_vnet_azure():
     terraform_dir = './azure/'
@@ -42,7 +48,7 @@ def criar_vnet_azure():
     except subprocess.CalledProcessError as e:
         return jsonify({"error": f"Erro ao criar VNET: {e}"}), 500
 
-# Função para criar Subrede Pública na Azure
+# Endpoint para criar uma Subrede Pública na Azure
 @app.route('/azure/criar-subrede-publica', methods=['POST'])
 def criar_subrede_publica_azure():
     terraform_dir = './azure/'
@@ -124,15 +130,15 @@ def criar_maquina_virtual_windows_azure():
 
 # ----------------------------------------------------AWS-----------------------------------------------------------#
 
-# Função para criar VPC na AWS
-@app.route('/aws/VPC', methods=['POST'])
-def criar_vpc_aws():
+# Endpoint para criar uma Subrede Privada na AWS
+@app.route('/aws/Subrede Privada', methods=['POST'])
+def criar_subrede_privada_aws():
     terraform_dir = './aws/'
     try:
-        subprocess.run(['terraform', 'apply', '-auto-approve', '-target=aws_vpc.vpc'], cwd=terraform_dir, check=True)
-        return jsonify({"message": "VPC criada com sucesso!"}), 200
+        subprocess.run(['terraform', 'apply', '-auto-approve', '-target=aws_subnet.Subrede_Privada'], cwd=terraform_dir, check=True)
+        return jsonify({"message": "Subrede Privada criada com sucesso!"}), 200
     except subprocess.CalledProcessError as e:
-        return jsonify({"error": f"Erro ao criar VPC: {e}"}), 500
+        return jsonify({"error": f"Erro ao criar Subrede Privada: {e}"}), 500
 
 # Função para criar Subrede Pública na AWS
 @app.route('/aws/Subrede Pública', methods=['POST'])
@@ -224,5 +230,6 @@ def criar_instancia_ec2_windows_aws():
     except subprocess.CalledProcessError as e:
         return jsonify({"error": f"Erro ao criar Instância EC2 Windows: {e}"}), 500
 
+# Inicialização do servidor Flask
 if __name__ == '__main__':
     app.run(debug=True)
