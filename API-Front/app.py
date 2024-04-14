@@ -128,6 +128,29 @@ def criar_maquina_virtual_windows_azure():
     except subprocess.CalledProcessError as e:
         return jsonify({"error": f"Erro ao criar Máquina Virtual Windows: {e}"}), 500
 
+@app.route('/azure/Load Balancer', methods=['POST'])
+# Criar Load Balancer
+def criar_load_balancer():
+    terraform_dir = './azure/'
+    try:
+        subprocess.run(['terraform', 'apply', '-auto-approve', 
+                        '-target=azurerm_public_ip.ip_publico_lb',
+                        '-target=azurerm_lb.loadb',
+                        '-target=azurerm_network_security_group.lbsg',
+                        '-target=azurerm_network_security_rule.regras_lbsg',
+                        '-target=azurerm_subnet_network_security_group_association.associar_gps',
+                        '-target=azurerm_lb_backend_address_pool.pool_back_end',
+                        '-target=azurerm_lb_probe.lb_probe',
+                        '-target=azurerm_lb_rule.lb_regas',
+                        '-target=azurerm_public_ip.vm_public_ip',
+                        '-target=azurerm_linux_virtual_machine.linuxlb',
+                        '-target=azurerm_network_interface.vm_network_interface',
+                        '-target=azurerm_network_interface_backend_address_pool_association.pool_association'
+                        ], cwd=terraform_dir, check=True)
+        print("LoadBalancer criado com sucesso!")
+    except subprocess.CalledProcessError as e:
+        print(f"Erro ao criar Load Balancer: {e}")
+
 # ----------------------------------------------------AWS-----------------------------------------------------------#
 
 # Endpoint para criar uma Subrede Privada na AWS
@@ -149,16 +172,6 @@ def criar_subrede_publica_aws():
         return jsonify({"message": "Subrede Pública criada com sucesso!"}), 200
     except subprocess.CalledProcessError as e:
         return jsonify({"error": f"Erro ao criar Subrede Pública: {e}"}), 500
-
-# Função para criar Subrede Privada na AWS
-@app.route('/aws/Subrede Privada', methods=['POST'])
-def criar_subrede_privada_aws():
-    terraform_dir = './aws/'
-    try:
-        subprocess.run(['terraform', 'apply', '-auto-approve', '-target=aws_subnet.Subrede_Privada'], cwd=terraform_dir, check=True)
-        return jsonify({"message": "Subrede Privada criada com sucesso!"}), 200
-    except subprocess.CalledProcessError as e:
-        return jsonify({"error": f"Erro ao criar Subrede Privada: {e}"}), 500
 
 # Função para criar Gateway de Internet na AWS
 @app.route('/aws/Gateway', methods=['POST'])
@@ -229,6 +242,25 @@ def criar_instancia_ec2_windows_aws():
         return jsonify({"message": "Instância EC2 Windows criada com sucesso!"}), 200
     except subprocess.CalledProcessError as e:
         return jsonify({"error": f"Erro ao criar Instância EC2 Windows: {e}"}), 500
+
+@app.route('/aws/Load Balancer', methods=['POST'])
+# Criar Load Balancer AWS
+def criar_load_balancer_aws():
+    terraform_dir = './aws/'
+    try:
+        subprocess.run(['terraform', 'apply', '-auto-approve', 
+                        '-target=aws_lb.loadb',
+                        '-target=aws_internet_gateway.igw',
+                        '-target=aws_route_table_association.public',
+                        '-target=aws_security_group.lb_sg',
+                        '-target=aws_lb_target_group.grupo_de_destino',
+                        '-target=aws_lb_listener.lb_listener',
+                        '-target=aws_instance.Linuxlb',
+                        '-target=aws_lb_target_group_attachment.grupo_target'
+                        ], cwd=terraform_dir, check=True)
+        print("LoadBalancer criado com sucesso!")
+    except subprocess.CalledProcessError as e:
+        print(f"Erro ao criar Load Balancer: {e}")
 
 # Inicialização do servidor Flask
 if __name__ == '__main__':

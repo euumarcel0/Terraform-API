@@ -96,9 +96,30 @@ def criar_maquina_virtual_linux(terraform_dir):
     except subprocess.CalledProcessError as e:
         print(f"Erro ao criar Máquina Virtual Linux: {e}")
 
+# Criar Load Balancer
+def criar_load_balancer(terraform_dir):
+    try:
+        subprocess.run(['terraform', 'apply', '-auto-approve', 
+                        '-target=azurerm_public_ip.ip_publico_lb',
+                        '-target=azurerm_lb.loadb',
+                        '-target=azurerm_network_security_group.lbsg',
+                        '-target=azurerm_network_security_rule.regras_lbsg',
+                        '-target=azurerm_subnet_network_security_group_association.associar_gps',
+                        '-target=azurerm_lb_backend_address_pool.pool_back_end',
+                        '-target=azurerm_lb_probe.lb_probe',
+                        '-target=azurerm_lb_rule.lb_regas',
+                        '-target=azurerm_public_ip.vm_public_ip',
+                        '-target=azurerm_linux_virtual_machine.linuxlb',
+                        '-target=azurerm_network_interface.vm_network_interface',
+                        '-target=azurerm_network_interface_backend_address_pool_association.pool_association'
+                        ], cwd=terraform_dir, check=True)
+        print("LoadBalancer criado com sucesso!")
+    except subprocess.CalledProcessError as e:
+        print(f"Erro ao criar Load Balancer: {e}")
+
 # Função para criar recursos na Azure com base na solicitação do usuário
 def Criar_AZURE(resources_to_create):
-    terraform_dir = './API-Back/azure/'
+    terraform_dir = './azure/'
     messages = []
 
     # Mapeamento de recursos para funções de criação
@@ -113,7 +134,8 @@ def Criar_AZURE(resources_to_create):
         'public_ip_linux': criar_interface_ip_linux,
         'public_ip_windows': criar_interface_ip_windows,
         'linux_virtual_machine': criar_maquina_virtual_linux,
-        'windows_virtual_machine': criar_maquina_virtual_windows
+        'windows_virtual_machine': criar_maquina_virtual_windows,
+        'load_balancer': criar_load_balancer
     }
 
     for resource in resources_to_create:
@@ -222,8 +244,25 @@ def criar_instancia_ec2_Windows(terraform_dir):
     except subprocess.CalledProcessError as e:
         print(f"Erro ao criar Instância EC2 Windows: {e}")
 
+# Criar Load Balancer AWS
+def criar_load_balancer(terraform_dir):
+    try:
+        subprocess.run(['terraform', 'apply', '-auto-approve', 
+                        '-target=aws_lb.loadb',
+                        '-target=aws_internet_gateway.igw',
+                        '-target=aws_route_table_association.public',
+                        '-target=aws_security_group.lb_sg',
+                        '-target=aws_lb_target_group.grupo_de_destino',
+                        '-target=aws_lb_listener.lb_listener',
+                        '-target=aws_instance.Linuxlb',
+                        '-target=aws_lb_target_group_attachment.grupo_target'
+                        ], cwd=terraform_dir, check=True)
+        print("LoadBalancer criado com sucesso!")
+    except subprocess.CalledProcessError as e:
+        print(f"Erro ao criar Load Balancer: {e}")
+        
 def criar_AWS(resources_to_create):
-    terraform_dir = './API-Back/aws/'
+    terraform_dir = './aws/'
     messages = []
 
     resource_functions = {
@@ -236,7 +275,8 @@ def criar_AWS(resources_to_create):
         'grupo_seguranca_linux': criar_grupo_seguranca_Linux(terraform_dir),
         'grupo_seguranca_windows': lambda: criar_grupo_seguranca_Windows(terraform_dir),
         'instancia_ec2_linux': lambda: criar_instancia_ec2_Linux(terraform_dir),
-        'instancia_ec2_windows': lambda: criar_instancia_ec2_Windows(terraform_dir)
+        'instancia_ec2_windows': lambda: criar_instancia_ec2_Windows(terraform_dir),
+        'load_balancer': lambda: criar_load_balancer(terraform_dir)
     }
 
     for resource in resources_to_create:
