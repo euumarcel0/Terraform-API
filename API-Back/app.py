@@ -81,7 +81,7 @@ def criar_interface_ip_windows(terraform_dir):
         print(f"Erro ao criar Interface de IP Público Windows: {e}")
 
 # Criar Maquina Virtual Windows Azure
-def criar_maquina_virtual_windows(terraform_dir):
+def criar_maquina_virtual_windows_azure(terraform_dir):
     try:
         subprocess.run(['terraform', 'apply', '-auto-approve', '-target=azurerm_windows_virtual_machine.windows'], cwd=terraform_dir, check=True)
         print("Máquina Virtual Windows criada com sucesso!")
@@ -89,7 +89,7 @@ def criar_maquina_virtual_windows(terraform_dir):
         print(f"Erro ao criar Máquina Virtual Windows: {e}")
 
 # Criar Maquina Virtual Linux Azure
-def criar_maquina_virtual_linux(terraform_dir):
+def criar_maquina_virtual_linux_azure(terraform_dir):
     try:
         subprocess.run(['terraform', 'apply', '-auto-approve', '-target=azurerm_linux_virtual_machine.linux'], cwd=terraform_dir, check=True)
         print("Máquina Virtual Linux criada com sucesso!")
@@ -97,7 +97,7 @@ def criar_maquina_virtual_linux(terraform_dir):
         print(f"Erro ao criar Máquina Virtual Linux: {e}")
 
 # Criar Load Balancer
-def criar_load_balancer(terraform_dir):
+def criar_load_balancer_azure(terraform_dir):
     try:
         subprocess.run(['terraform', 'apply', '-auto-approve', 
                         '-target=azurerm_public_ip.ip_publico_lb',
@@ -124,18 +124,18 @@ def Criar_AZURE(resources_to_create):
 
     # Mapeamento de recursos para funções de criação
     resource_functions = {
-        'resource_group': criar_grupo_recursos,
-        'storage_account': criar_conta_armazenamento,
-        'virtual_network': criar_vnet,
-        'subnet_publica': criar_subrede_publica_azure(terraform_dir),
-        'subnet_privada': criar_subrede_privada_azure(terraform_dir),
-        'network_security_linux': criar_grupo_seguranca_linux,
-        'network_security_windows': criar_grupo_seguranca_Windows,
-        'public_ip_linux': criar_interface_ip_linux,
-        'public_ip_windows': criar_interface_ip_windows,
-        'linux_virtual_machine': criar_maquina_virtual_linux,
-        'windows_virtual_machine': criar_maquina_virtual_windows,
-        'load_balancer': criar_load_balancer
+        'grupo_de_recursos': criar_grupo_recursos,
+        'conta_de_armazenamento': criar_conta_armazenamento,
+        'vnet': criar_vnet,
+        'subrede_publica': criar_subrede_publica_azure,
+        'subrede_privada': criar_subrede_privada_azure,
+        'grupo_linux': criar_grupo_seguranca_linux,
+        'grupo_windows': criar_grupo_seguranca_Windows,
+        'ip_linux': criar_interface_ip_linux,
+        'ip_windows': criar_interface_ip_windows,
+        'mq_linux': criar_maquina_virtual_linux_azure,
+        'mq_windows': criar_maquina_virtual_windows_azure,
+        'load_balancer': criar_load_balancer_azure
     }
 
     for resource in resources_to_create:
@@ -213,7 +213,7 @@ def associar_subrede_tabela(terraform_dir):
         print(f"Erro ao associar Subrede Pública à Tabela de Rotas: {e}")
 
 # Função para criar Grupo de Segurança Linux
-def criar_grupo_seguranca_Linux(terraform_dir):
+def criar_grupo_seguranca_Linux_aws(terraform_dir):
     try:
         subprocess.run(['terraform', 'apply', '-auto-approve', '-target=aws_security_group.Grupo_de_Seguranca_LInux'], cwd=terraform_dir, check=True)
         print(f"Grupo de Segurança criado com sucesso!")
@@ -221,7 +221,7 @@ def criar_grupo_seguranca_Linux(terraform_dir):
         print(f"Erro ao criar Grupo de Segurança: {e}")
         
 # Função para criar Grupo de Segurança Windows
-def criar_grupo_seguranca_Windows(terraform_dir):
+def criar_grupo_seguranca_Windows_aws(terraform_dir):
     try:
         subprocess.run(['terraform', 'apply', '-auto-approve', '-target=aws_security_group.Grupo_de_Seguranca_Windows'], cwd=terraform_dir, check=True)
         print(f"Grupo de Segurança criado com sucesso!")
@@ -245,7 +245,7 @@ def criar_instancia_ec2_Windows(terraform_dir):
         print(f"Erro ao criar Instância EC2 Windows: {e}")
 
 # Criar Load Balancer AWS
-def criar_load_balancer(terraform_dir):
+def criar_load_balancer_aws(terraform_dir):
     try:
         subprocess.run(['terraform', 'apply', '-auto-approve', 
                         '-target=aws_lb.loadb',
@@ -260,23 +260,24 @@ def criar_load_balancer(terraform_dir):
         print("LoadBalancer criado com sucesso!")
     except subprocess.CalledProcessError as e:
         print(f"Erro ao criar Load Balancer: {e}")
-        
+
+# Função para criar recursos na AWS com base na solicitação do usuário        
 def criar_AWS(resources_to_create):
     terraform_dir = './aws/'
     messages = []
 
     resource_functions = {
         'vpc': lambda: criar_vpc,
-        'subnet_publica': lambda: criar_subrede_publica_aws(terraform_dir),
-        'subnet_privada': lambda: criar_subrede_privada_aws(terraform_dir),
+        'subrede_publica': lambda: criar_subrede_publica_aws(terraform_dir),
+        'subrede_privada': lambda: criar_subrede_privada_aws(terraform_dir),
         'internet_gateway': lambda: criar_internet_gateway(terraform_dir),
         'tabela_rotas': lambda: criar_tabela_rotas(terraform_dir),
         'associar_subrede_tabela': lambda: associar_subrede_tabela(terraform_dir),
-        'grupo_seguranca_linux': criar_grupo_seguranca_Linux(terraform_dir),
-        'grupo_seguranca_windows': lambda: criar_grupo_seguranca_Windows(terraform_dir),
-        'instancia_ec2_linux': lambda: criar_instancia_ec2_Linux(terraform_dir),
-        'instancia_ec2_windows': lambda: criar_instancia_ec2_Windows(terraform_dir),
-        'load_balancer': lambda: criar_load_balancer(terraform_dir)
+        'grupo_seguranca_linux': criar_grupo_seguranca_Linux_aws(terraform_dir),
+        'grupo_seguranca_windows': lambda: criar_grupo_seguranca_Windows_aws(terraform_dir),
+        'ec2_linux': lambda: criar_instancia_ec2_Linux(terraform_dir),
+        'ec2_windows': lambda: criar_instancia_ec2_Windows(terraform_dir),
+        'load_balancer': lambda: criar_load_balancer_aws(terraform_dir)
     }
 
     for resource in resources_to_create:
@@ -347,13 +348,13 @@ def menu():
         "aws": {
             "create": [
                 "vpc",
-                "subnet_publica",
-                "subnet_privada",
+                "subrede_publica",
+                "subrede_privada",
                 "internet_gateway",
-                "route_table",
-                "route_table_association",
-                "security_group_linux",
-                "security_group_windows",
+                "tabela_rotas",
+                "associar_subrede_tabela",
+                "grupo_seguranca_linux",
+                "grupo_seguranca_windows",
                 "ec2_linux",
                 "ec2_windows"
             ],
@@ -361,18 +362,19 @@ def menu():
         },
         "azure": {
             "create": [
-                "resource_group",
-                "storage_account",
-                "virtual_network",
-                "subnet_publica",
-                "subnet_privada",
-                "network_security_group",
-                "public_ip_linux",
-                "public_ip_windows",
+                "grupo_de_recursos",
+                "conta_de_armazenamento",
+                "vnet",
+                "subrede_publica",
+                "subrede_privada",
+                "grupo_linux",
+                "grupo_windows"
+                "ip_linux",
+                "ip_windows",
                 "interface_de_rede_linux",
                 "interface_de_rede_windows",
-                "linux_virtual_machine",
-                "windows_virtual_machine"
+                "mq_linux",
+                "mq_windows"
             ],
             "destroy": "Destruir todos os recursos Azure"
         }

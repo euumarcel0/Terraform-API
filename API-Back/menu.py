@@ -17,7 +17,7 @@
 # Exemplo de Solicitação no Postman:
 {
    "platform": "aws",
-   "resources_to_create": ["subnet_publica"]
+   "resources_to_create": ["subrede_publica"]
 }
 
 # Subnets
@@ -26,7 +26,7 @@
 # Exemplo de Solicitação no Postman:
 {
    "platform": "aws",
-   "resources_to_create": ["subnet_privada"]
+   "resources_to_create": ["subrede_privada"]
 }
 
 # Internet Gateway
@@ -44,7 +44,7 @@
 # Exemplo de Solicitação no Postman:
 {
    "platform": "aws",
-   "resources_to_create": ["route_table"]
+   "resources_to_create": ["tabela_rotas"]
 }
 
 # Route Table Association
@@ -53,7 +53,7 @@
 # Exemplo de Solicitação no Postman:
 {
    "platform": "aws",
-   "resources_to_create": ["route_table_association"]
+   "resources_to_create": ["associar_subrede_tabela"]
 }
 
 # Security Groups
@@ -62,7 +62,7 @@
 # Exemplo de Solicitação no Postman:
 {
    "platform": "aws",
-   "resources_to_create": ["security_group_linux"]
+   "resources_to_create": ["grupo_seguranca_linux"]
 }
 
 # Security Groups
@@ -71,7 +71,7 @@
 # Exemplo de Solicitação no Postman:
 {
    "platform": "aws",
-   "resources_to_create": ["security_group_windows"]
+   "resources_to_create": ["grupo_seguranca_windows"]
 }
 
 # EC2 Instances
@@ -100,7 +100,7 @@
 # Exemplo de Solicitação no Postman:
 {
    "platform": "azure",
-   "resources_to_create": ["resource_group"]
+   "resources_to_create": ["grupo_de_recursos"]
 }
 
 # Storage Account
@@ -109,7 +109,7 @@
 # Exemplo de Solicitação no Postman:
 {
    "platform": "azure",
-   "resources_to_create": ["storage_account"]
+   "resources_to_create": ["conta_de_armazenamento"]
 }
 
 # Virtual Network
@@ -118,7 +118,7 @@
 # Exemplo de Solicitação no Postman:
 {
    "platform": "azure",
-   "resources_to_create": ["virtual_network"]
+   "resources_to_create": ["vnet"]
 }
 
 # Subnets
@@ -127,7 +127,7 @@
 # Exemplo de Solicitação no Postman:
 {
    "platform": "azure",
-   "resources_to_create": ["subnet_publica"]
+   "resources_to_create": ["subrede_publica"]
 }
 
 # Subnets
@@ -136,7 +136,7 @@
 # Exemplo de Solicitação no Postman:
 {
    "platform": "azure",
-   "resources_to_create": ["subnet_privada"]
+   "resources_to_create": ["subrede_privada"]
 }
 
 # Network Security Group
@@ -145,7 +145,17 @@
 # Exemplo de Solicitação no Postman:
 {
    "platform": "azure",
-   "resources_to_create": ["network_security_group"]
+   "resources_to_create": ["grupo_linux"]
+}
+
+
+# Network Security Group
+# Recurso: Network_Security_Group
+# Descrição: Define regras de segurança para a VNet.
+# Exemplo de Solicitação no Postman:
+{
+   "platform": "azure",
+   "resources_to_create": ["grupo_windows"]
 }
 
 # Public IPs
@@ -154,7 +164,7 @@
 # Exemplo de Solicitação no Postman:
 {
    "platform": "azure",
-   "resources_to_create": ["public_ip_linux"]
+   "resources_to_create": ["ip_linux"]
 }
 
 # Public IPs
@@ -163,7 +173,7 @@
 # Exemplo de Solicitação no Postman:
 {
    "platform": "azure",
-   "resources_to_create": ["public_ip_windows"]
+   "resources_to_create": ["ip_windows"]
 }
 
 # Network Interfaces
@@ -182,4 +192,24 @@
 {
    "platform": "azure",
    "resources_to_create": ["interface_de_rede_windows"]
+}
+
+
+# Máquina Virtual Windows
+# Recurso: Máquina virtual Windows
+# Descrição: Cria uma instância Windows.
+# Exemplo de Solicitação no Postman:
+{
+   "platform": "azure",
+   "resources_to_create": ["mq_linux"]
+}
+
+
+# Máquina Virtual Windows
+# Recurso: Máquina virtual Windows
+# Descrição: Cria uma instância Windows.
+# Exemplo de Solicitação no Postman:
+{
+   "platform": "azure",
+   "resources_to_create": ["mq_windows"]
 }

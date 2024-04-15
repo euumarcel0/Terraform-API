@@ -4,13 +4,13 @@ provider "azurerm" {
 
 # Criar Grupo de Recursos
 resource "azurerm_resource_group" "Grupo_de_recursos" {
-  name     = "teste"
+  name     = "hoje"
   location = "East US"
 }
 
 # Criar Conta de Armazenamento
 resource "azurerm_storage_account" "Conta_de_armazenamento" {
-  name                     = "apirodando"
+  name                     = "apirodandoss"
   resource_group_name      = azurerm_resource_group.Grupo_de_recursos.name
   location                 = azurerm_resource_group.Grupo_de_recursos.location
   account_tier             = "Standard"
