@@ -33,7 +33,7 @@ def criar_vnet(terraform_dir):
         print(f"Erro ao criar VNET: {e}")
         
 # Criar Subrede Pública Azure
-def criar_subrede_publica(terraform_dir):
+def criar_subrede_publica_azure(terraform_dir):
     try:
         subprocess.run(['terraform', 'apply', '-auto-approve', '-target=azurerm_subnet.Subrede_Publica'], cwd=terraform_dir, check=True)
         print("Subrede Pública criada com sucesso!")
@@ -41,7 +41,7 @@ def criar_subrede_publica(terraform_dir):
         print(f"Erro ao criar Subrede Pública: {e}")
 
 # Criar Subrede Privada Azure
-def criar_subrede_privada(terraform_dir):
+def criar_subrede_privada_azure(terraform_dir):
     try:
         subprocess.run(['terraform', 'apply', '-auto-approve', '-target=azurerm_subnet.Subrede_Privada'], cwd=terraform_dir, check=True)
         print("Subrede Privada criada com sucesso!")
@@ -127,8 +127,8 @@ def Criar_AZURE(resources_to_create):
         'resource_group': criar_grupo_recursos,
         'storage_account': criar_conta_armazenamento,
         'virtual_network': criar_vnet,
-        'subnet_publica': criar_subrede_publica,
-        'subnet_privada': criar_subrede_privada,
+        'subnet_publica': criar_subrede_publica_azure(terraform_dir),
+        'subnet_privada': criar_subrede_privada_azure(terraform_dir),
         'network_security_linux': criar_grupo_seguranca_linux,
         'network_security_windows': criar_grupo_seguranca_Windows,
         'public_ip_linux': criar_interface_ip_linux,
@@ -173,7 +173,7 @@ def criar_vpc(terraform_dir):
         print(f"Erro ao criar VPC: {e}")
 
 # Função para criar Subrede Pública
-def criar_subrede_publica(terraform_dir):
+def criar_subrede_publica_aws(terraform_dir):
     try:
         subprocess.run(['terraform', 'apply', '-auto-approve', '-target=aws_subnet.Subrede_Publica'], cwd=terraform_dir, check=True)
         print("Subrede Pública criada com sucesso!")
@@ -181,7 +181,7 @@ def criar_subrede_publica(terraform_dir):
         print(f"Erro ao criar Subrede Pública: {e}")
 
 # Função para criar Subrede Privada
-def criar_subrede_privada(terraform_dir):
+def criar_subrede_privada_aws(terraform_dir):
     try:
         subprocess.run(['terraform', 'apply', '-auto-approve', '-target=aws_subnet.Subrede_Privada'], cwd=terraform_dir, check=True)
         print("Subrede Privada criada com sucesso!")
@@ -267,8 +267,8 @@ def criar_AWS(resources_to_create):
 
     resource_functions = {
         'vpc': lambda: criar_vpc,
-        'subnet_publica': lambda: criar_subrede_publica(terraform_dir),
-        'subnet_privada': lambda: criar_subrede_privada(terraform_dir),
+        'subnet_publica': lambda: criar_subrede_publica_aws(terraform_dir),
+        'subnet_privada': lambda: criar_subrede_privada_aws(terraform_dir),
         'internet_gateway': lambda: criar_internet_gateway(terraform_dir),
         'tabela_rotas': lambda: criar_tabela_rotas(terraform_dir),
         'associar_subrede_tabela': lambda: associar_subrede_tabela(terraform_dir),
